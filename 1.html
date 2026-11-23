@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INSPIRED. — Next-Level Digital Performance Agency</title>
+
+  <!-- Google Fonts: Inter (Swiss Neo-Grotesque match) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          colors: {
+            bone: '#F5F5EF',
+            acid: '#FAFF00',
+            charcoal: '#1C1C1C',
+            ink: '#111111',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg-bone: #F5F5EF;
+      --bg-acid: #FAFF00;
+      --ink-dark: #1C1C1C;
+    }
+
+    body {
+      background-color: var(--bg-bone);
+      color: var(--ink-dark);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Vertical rotated card notch label */
+    .vertical-label {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    /* Nav pill hover micro-interaction */
+    .nav-link {
+      position: relative;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    .nav-link:hover,
+    .nav-link.active-pill {
+      background-color: #6B6E00;
+      color: #FFFFFF;
+    }
+
+    /* Portfolio in-card split reveal transitions */
+    .work-card-drawer {
+      transition: opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .work-card-media {
+      transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1), margin-left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .work-card.is-open .work-card-media {
+      width: 42%;
+      margin-left: 58%;
+    }
+    @media (max-width: 1023px) {
+      .work-card.is-open .work-card-media {
+        width: 100%;
+        margin-left: 0;
+        opacity: 0.12;
+      }
+    }
+    .work-card.is-open .work-card-drawer {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+    }
+    .work-card.is-open .work-card-notch {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Sticky capabilities stack on desktop */
+    @media (min-width: 768px) {
+      .cap-card-1 { position: sticky; top: 84px; z-index: 10; }
+      .cap-card-2 { position: sticky; top: 152px; z-index: 20; }
+      .cap-card-3 { position: sticky; top: 220px; z-index: 30; }
+    }
+
+    /* Kinetic showreel scenes */
+    .reel-scene {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* Footer rolling words transition */
+    .footer-wheel-word {
+      transition: opacity 0.3s ease, color 0.3s ease;
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(28, 28, 28, 0.28); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(28, 28, 28, 0.55); }
+  </style>
+</head>
+<body class="selection:bg-acid selection:text-charcoal">
+
+  <!-- =========================================================
+       SECTION 1: FLOATING PILL NAVIGATION BAR
+       ========================================================= -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4 md:px-10 pointer-events-none">
+    <nav class="pointer-events-auto max-w-[1380px] mx-auto bg-white/95 backdrop-blur-md rounded-full shadow-[0_6px_30px_rgba(0,0,0,0.06)] px-6 md:px-9 py-3.5 flex items-center justify-between border border-black/[0.04]">
+      <!-- INSPIRED. Custom Monogram Wordmark -->
+      <a href="#top" class="flex items-center gap-0.5 group" aria-label="Inspired Agency Home">
+        <svg class="h-5 md:h-[22px] w-auto text-charcoal" viewBox="0 0 132 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <!-- Stylized I\N Monogram -->
+          <rect x="0" y="3" width="3.8" height="18" />
+          <polygon points="7,3 11.2,3 17.5,14.5 17.5,3 21.3,3 21.3,21 17.1,21 10.8,9.5 10.8,21 7,21" fill-opacity="0.16" />
+          <polygon points="7,3 11,3 17.8,15.5 17.8,21 14,21 7,8.5" />
+          <rect x="17.5" y="3" width="3.8" height="9.2" />
+          <!-- SPIRED. -->
+          <text x="24" y="20.5" font-family="Inter, sans-serif" font-weight="900" font-size="22" letter-spacing="-0.8">SPIRED.</text>
+        </svg>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <div class="hidden md:flex items-center gap-2 lg:gap-4">
+        <a href="#about" class="nav-link px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-[0.14em] uppercase text-charcoal">About</a>
+        <a href="#our-work" class="nav-link px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-[0.14em] uppercase text-charcoal">Our Work</a>
+        <a href="#capabilities" class="nav-link px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-[0.14em] uppercase text-charcoal">Capabilities</a>
+        <a href="#careers" class="nav-link px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-[0.14em] uppercase text-charcoal">Careers</a>
+        <a href="#contact" class="nav-link px-3.5 py-1.5 rounded-full text-[10px] font-bold tracking-[0.14em] uppercase text-charcoal">Contact</a>
+      </div>
+
+      <!-- Mobile Menu Trigger -->
+      <button id="mobileMenuBtn" class="md:hidden p-2 rounded-full hover:bg-black/5 text-charcoal" aria-label="Toggle navigation">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+      </button>
+    </nav>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobileMenu" class="pointer-events-auto hidden md:hidden max-w-[1380px] mx-auto mt-2 bg-white rounded-3xl shadow-xl p-5 border border-black/5">
+      <div class="flex flex-col gap-2">
+        <a href="#about" class="mobile-nav-link px-4 py-2.5 rounded-full text-xs font-bold tracking-[0.14em] uppercase hover:bg-acid">About</a>
+        <a href="#our-work" class="mobile-nav-link px-4 py-2.5 rounded-full text-xs font-bold tracking-[0.14em] uppercase hover:bg-acid">Our Work</a>
+        <a href="#capabilities" class="mobile-nav-link px-4 py-2.5 rounded-full text-xs font-bold tracking-[0.14em] uppercase hover:bg-acid">Capabilities</a>
+        <a href="#careers" class="mobile-nav-link px-4 py-2.5 rounded-full text-xs font-bold tracking-[0.14em] uppercase hover:bg-acid">Careers</a>
+        <a href="#contact" class="mobile-nav-link px-4 py-2.5 rounded-full text-xs font-bold tracking-[0.14em] uppercase hover:bg-acid">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       SECTION 2: HERO HEADLINE & KINETIC SHOWREEL STAGE
+       ========================================================= -->
+  <section id="top" class="pt-32 md:pt-40 pb-12 px-4 md:px-10">
+    <div class="max-w-[1380px] mx-auto">
+      <!-- Centered Editorial Display Headline -->
+      <div class="max-w-4xl mx-auto text-center mb-14 md:mb-20 hero-headline">
+        <h1 class="text-[clamp(1.65rem,3.3vw,3.15rem)] leading-[1.15] tracking-[-0.025em] uppercase text-charcoal font-light">
+          POWERING FORWARD-THINKING COMPANIES TO DELIVER
+          <strong class="font-extrabold">NEXT-LEVEL DIGITAL PERFORMANCE</strong>
+          WHERE OTHERS CAN'T.
+        </h1>
+      </div>
+
+      <!-- Rounded Showreel Container -->
+      <!-- NOTE: To replace the animated HTML5 showreel with your own video file, swap the inner scenes for:
+           <video autoplay muted loop playsinline class="w-full h-full object-cover" src="showreel.mp4"></video> -->
+      <div id="heroReel" class="relative w-full aspect-[16/10] md:aspect-[16/9] min-h-[380px] md:min-h-[600px] rounded-2xl md:rounded-[24px] overflow-hidden bg-charcoal shadow-[0_24px_60px_rgba(0,0,0,0.08)]">
+
+        <!-- SCENE 1: Editorial Portrait Clip (00:00.6 - 00:02.5) -->
+        <div class="reel-scene" data-scene="1">
+          <img
+            src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1800&q=85"
+            alt="Editorial Agency Portrait"
+            class="reel-zoom-img w-full h-full object-cover object-center scale-105"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10"></div>
+        </div>
+
+        <!-- SCENE 2: INSPIRING BRANDS SINCE '07 Kinetic Wipe (00:02.7 - 00:04.3) -->
+        <div class="reel-scene bg-bone flex items-center justify-center px-6" data-scene="2">
+          <div class="flex flex-wrap items-center justify-center gap-x-3 md:gap-x-4 text-center uppercase font-black tracking-[-0.04em] text-[clamp(1.8rem,5.8vw,5.4rem)] leading-none text-charcoal">
+            <span class="s2-word-1 inline-block">INSPIRING</span>
+            <span class="s2-word-2 inline-block">BRANDS</span>
+            <span class="s2-box relative inline-block px-3 md:px-5 py-1.5 md:py-2 overflow-hidden">
+              <span class="s2-bg absolute inset-0 bg-charcoal origin-right scale-x-0"></span>
+              <span class="s2-since relative z-10 text-charcoal">SINCE '07</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- SCENE 3: Stadium Tunnel PARTNERS / IN (00:04.5 - 00:05.6) -->
+        <div class="reel-scene bg-black flex items-center justify-center overflow-hidden" data-scene="3">
+          <img
+            src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=1800&q=85"
+            alt="Stadium Tunnel"
+            class="s3-img w-full h-full object-cover opacity-55 grayscale contrast-125 scale-100"
+          />
+          <div class="absolute inset-0 flex items-center justify-center">
+            <span class="s3-partners absolute text-white font-black uppercase tracking-[-0.04em] text-[clamp(3rem,10vw,9rem)]">PARTNERS</span>
+            <span class="s3-in absolute text-white font-black uppercase tracking-[-0.04em] text-[clamp(3.5rem,11vw,10rem)] opacity-0">IN</span>
+          </div>
+        </div>
+
+        <!-- SCENE 4: PERFORMANCE / TECHNICAL / CREATIVE Yellow Sweep (00:05.7 - 00:06.6) -->
+        <div class="reel-scene bg-charcoal flex flex-col items-center justify-center gap-3 md:gap-4 px-6" data-scene="4">
+          <div class="relative w-full max-w-4xl py-2 md:py-3 text-center overflow-hidden">
+            <div class="s4-bar-1 absolute inset-0 bg-acid origin-left scale-x-0"></div>
+            <span class="s4-txt-1 relative z-10 font-black uppercase tracking-[-0.04em] text-[clamp(2.2rem,7.2vw,6.5rem)] leading-none text-white">PERFORMANCE</span>
+          </div>
+          <div class="relative w-full max-w-4xl py-2 md:py-3 text-center overflow-hidden">
+            <div class="s4-bar-2 absolute inset-0 bg-acid origin-right scale-x-0"></div>
+            <span class="s4-txt-2 relative z-10 font-black uppercase tracking-[-0.04em] text-[clamp(2.2rem,7.2vw,6.5rem)] leading-none text-white/30">TECHNICAL</span>
+          </div>
+          <div class="relative w-full max-w-4xl py-2 md:py-3 text-center overflow-hidden">
+            <div class="s4-bar-3 absolute inset-0 bg-acid origin-left scale-x-0"></div>
+            <span class="s4-txt-3 relative z-10 font-black uppercase tracking-[-0.04em] text-[clamp(2.2rem,7.2vw,6.5rem)] leading-none text-white/30">CREATIVE</span>
+          </div>
+        </div>
+
+        <!-- SCENE 5: Fanned Mobile Device Showcase (00:06.7 - 00:08.0) -->
+        <div class="reel-scene bg-white flex items-center justify-center overflow-hidden" data-scene="5">
+          <div class="s5-fan relative w-full h-full flex items-center justify-center">
+            <div class="s5-phone w-44 md:w-64 h-80 md:h-[480px] rounded-[36px] border-[7px] border-charcoal overflow-hidden shadow-2xl absolute -rotate-[34deg] -translate-x-48 translate-y-6 bg-stone-200">
+              <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=600&q=80" alt="Mobile Reel 1" class="w-full h-full object-cover" />
+            </div>
+            <div class="s5-phone w-44 md:w-64 h-80 md:h-[480px] rounded-[36px] border-[7px] border-charcoal overflow-hidden shadow-2xl absolute -rotate-[20deg] -translate-x-20 translate-y-2 bg-stone-300">
+              <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80" alt="Mobile Reel 2" class="w-full h-full object-cover" />
+            </div>
+            <div class="s5-phone w-44 md:w-64 h-80 md:h-[480px] rounded-[36px] border-[7px] border-charcoal overflow-hidden shadow-2xl absolute -rotate-[8deg] translate-x-12 translate-y-0 bg-stone-200">
+              <img src="https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=600&q=80" alt="Mobile Reel 3" class="w-full h-full object-cover" />
+            </div>
+            <div class="s5-phone w-44 md:w-64 h-80 md:h-[480px] rounded-[36px] border-[7px] border-charcoal overflow-hidden shadow-2xl absolute rotate-[6deg] translate-x-44 translate-y-6 bg-stone-100">
+              <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80" alt="Mobile Reel 4" class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom-right Mute / Unmute Circular Button (Exact match to video) -->
+        <button id="muteToggle" class="absolute bottom-5 right-5 z-30 w-10 h-10 rounded-full bg-charcoal/85 hover:bg-charcoal text-white flex items-center justify-center backdrop-blur-sm transition-transform hover:scale-105" aria-label="Toggle showreel sound">
+          <i id="muteIcon" data-lucide="volume-x" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Subtle Scene Progress Pill (bottom-left) -->
+        <div class="absolute bottom-5 left-5 z-30 flex items-center gap-1.5 bg-black/35 backdrop-blur-md px-3 py-1.5 rounded-full">
+          <span class="reel-dot w-1.5 h-1.5 rounded-full bg-acid transition-all"></span>
+          <span class="reel-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all"></span>
+          <span class="reel-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all"></span>
+          <span class="reel-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all"></span>
+          <span class="reel-dot w-1.5 h-1.5 rounded-full bg-white/40 transition-all"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 3: YELLOW MORPH MISSION & ROTATING CLIENT LOGOS
+       ========================================================= -->
+  <section id="about" class="py-24 md:py-36 px-4 md:px-10 min-h-[75vh] flex flex-col justify-center">
+    <div class="max-w-[1260px] mx-auto w-full">
+
+      <!-- Cross-Fading Mission Copy Container -->
+      <div class="relative min-h-[175px] md:min-h-[160px] max-w-xl mb-20 md:mb-28">
+        <p id="missionCopy1" class="mission-copy text-lg md:text-[21px] leading-[1.55] font-light text-charcoal transition-all duration-700">
+          Since 2007, we've been on a mission to <strong class="font-bold">inspire</strong>. To take you, your people and your brand to the next level of digital performance. How? By understanding and solving tough business problems while setting the standard for the agency + partner experience. Because Inspired isn't just the name. It's the result.
+        </p>
+        <p id="missionCopy2" class="mission-copy absolute inset-0 text-lg md:text-[21px] leading-[1.55] font-light text-charcoal opacity-0 translate-y-4 pointer-events-none transition-all duration-700">
+          Right now, we're building game-changing, customer and employee-first web and app experiences. We're crafting data-led, creative projects that actually connect with the right people. And we're running multi-channel growth campaigns across the globe, from disruptive startups to the best of the best.
+        </p>
+      </div>
+
+      <!-- Rotating 5-Column Client Logo Stage (3 Sets of 5 Brands from Video) -->
+      <div class="relative min-h-[92px] flex items-center">
+
+        <!-- Logo Set 1 -->
+        <div class="logo-set grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 md:gap-10 items-center w-full" data-set="0">
+          <div class="logo-item flex items-center justify-center md:justify-start">
+            <div class="leading-tight text-charcoal">
+              <div class="text-[11px] font-black tracking-tight uppercase">NORTHUMBRIAN</div>
+              <div class="text-[11px] font-black tracking-tight uppercase">WATER <span class="font-normal italic lowercase text-xs">living water</span></div>
+            </div>
+          </div>
+          <div class="logo-item flex items-center justify-center">
+            <span class="text-2xl md:text-[26px] font-black tracking-tight text-charcoal">Panasonic</span>
+          </div>
+          <div class="logo-item flex items-center justify-center gap-1.5">
+            <span class="inline-block w-3.5 h-3.5 rounded-full bg-charcoal rounded-tr-none rotate-45"></span>
+            <span class="text-2xl font-bold tracking-tight text-charcoal">solopress</span>
+          </div>
+          <div class="logo-item flex items-center justify-center">
+            <div class="text-left leading-none text-charcoal">
+              <div class="text-sm font-bold tracking-tight">Sunderland</div>
+              <div class="text-sm font-medium tracking-tight">City Council</div>
+            </div>
+          </div>
+          <div class="logo-item flex items-center justify-center md:justify-end gap-2">
+            <span class="text-2xl font-black text-charcoal">C</span>
+            <span class="text-[9px] font-bold uppercase leading-tight tracking-wider text-charcoal">Centre<br>for Life</span>
+          </div>
+        </div>
+
+        <!-- Logo Set 2 -->
+        <div class="logo-set absolute inset-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 md:gap-10 items-center w-full opacity-0 pointer-events-none" data-set="1">
+          <div class="logo-item flex items-center justify-center md:justify-start gap-2">
+            <svg class="w-5 h-5 text-charcoal" viewBox="0 0 24 24" fill="currentColor"><polygon points="0,4 22,12 0,20" /></svg>
+            <span class="text-xl font-black tracking-wider text-charcoal">DAIKIN</span>
+          </div>
+          <div class="logo-item flex items-center justify-center">
+            <span class="text-xl md:text-2xl font-bold tracking-[0.12em] text-charcoal">FLANNELS</span>
+          </div>
+          <div class="logo-item flex items-center justify-center gap-1.5">
+            <span class="text-xl font-black italic tracking-tighter text-charcoal">G GRIPPLE</span>
+          </div>
+          <div class="logo-item flex items-center justify-center">
+            <div class="text-center leading-none text-charcoal">
+              <div class="text-xs font-serif italic font-semibold">Free*</div>
+              <div class="text-base font-bold tracking-[0.14em] uppercase">SOUL</div>
+            </div>
+          </div>
+          <div class="logo-item flex items-center justify-center md:justify-end">
+            <span class="text-xl font-serif font-semibold tracking-tight text-charcoal">Hays Travel</span>
+          </div>
+        </div>
+
+        <!-- Logo Set 3 -->
+        <div class="logo-set absolute inset-0 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-8 md:gap-10 items-center w-full opacity-0 pointer-events-none" data-set="2">
+          <div class="logo-item flex items-center justify-center md:justify-start gap-1.5">
+            <span class="text-lg">★</span>
+            <span class="text-2xl font-serif font-bold tracking-tight text-charcoal">Heineken</span>
+          </div>
+          <div class="logo-item flex items-center justify-center">
+            <!-- Mercedes Star Mark -->
+            <svg class="w-9 h-9 text-charcoal" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="20" cy="20" r="16" />
+              <path d="M20 4 L20 20 L7 29 M20 20 L33 29" stroke-width="2.2" />
+            </svg>
+          </div>
+          <div class="logo-item flex items-center justify-center">
+            <span class="text-2xl font-black tracking-[0.14em] text-charcoal">HITACHI</span>
+          </div>
+          <div class="logo-item flex items-center justify-center">
+            <div class="text-left leading-tight text-charcoal">
+              <div class="text-sm font-extrabold tracking-tight">Newcastle</div>
+              <div class="text-xs font-medium tracking-wide">University</div>
+            </div>
+          </div>
+          <div class="logo-item flex items-center justify-center md:justify-end">
+            <span class="px-2.5 py-0.5 bg-charcoal text-acid font-black italic text-2xl tracking-tight">NHS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Subtle Interactive Set Indicator Dots -->
+      <div class="flex items-center gap-2 mt-12">
+        <button class="logo-dot w-7 h-1.5 rounded-full bg-charcoal transition-all" data-target="0" aria-label="Show logo set 1"></button>
+        <button class="logo-dot w-2 h-1.5 rounded-full bg-charcoal/25 hover:bg-charcoal/50 transition-all" data-target="1" aria-label="Show logo set 2"></button>
+        <button class="logo-dot w-2 h-1.5 rounded-full bg-charcoal/25 hover:bg-charcoal/50 transition-all" data-target="2" aria-label="Show logo set 3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 4: OUR WORK / PORTFOLIO GRID WITH SPLIT DRAWER
+       ========================================================= -->
+  <section id="our-work" class="py-10 md:py-16 px-4 md:px-10">
+    <div class="max-w-[1380px] mx-auto space-y-6 md:space-y-8">
+
+      <!-- CARD 1: AMJ Watches (Full Width) -->
+      <article class="work-card reveal-card relative rounded-2xl md:rounded-[24px] overflow-hidden bg-bone h-[420px] md:h-[620px] cursor-pointer group" data-project="AMJ Watches">
+        <!-- Split Reveal Drawer (Left 58%) -->
+        <div class="work-card-drawer absolute inset-y-0 left-0 w-full lg:w-[58%] bg-bone p-8 md:p-14 flex flex-col justify-between z-20 opacity-0 pointer-events-none -translate-x-6">
+          <div class="flex items-center justify-between">
+            <svg class="h-6 w-auto text-charcoal" viewBox="0 0 28 24" fill="currentColor">
+              <rect x="0" y="2" width="4.5" height="20" />
+              <polygon points="8,2 13,2 21,16 21,22 16.5,22 8,8" />
+              <rect x="21" y="2" width="4.5" height="10" />
+            </svg>
+            <button class="close-drawer-btn w-9 h-9 rounded-full hover:bg-black/10 flex items-center justify-center text-charcoal font-bold text-lg transition" aria-label="Close case study">✕</button>
+          </div>
+          <div class="max-w-md my-auto">
+            <h3 class="text-3xl md:text-[38px] font-bold tracking-tight text-charcoal mb-4">Wanting to see more?</h3>
+            <p class="text-base md:text-lg font-light text-charcoal/80 leading-relaxed mb-8">
+              Our paid media specialists scaled AMJ Watches' luxury timepiece ROAS by 312% across Search and Shopping while cutting cost-per-acquisition in half. Want results like that? Let's chat.
+            </p>
+            <a href="#contact" class="drawer-cta inline-flex items-center justify-center bg-ink text-white text-[11px] font-bold tracking-[0.14em] uppercase px-8 py-3.5 rounded-full hover:bg-charcoal transition">Get In Touch</a>
+          </div>
+          <div class="text-xs uppercase tracking-widest text-charcoal/40 font-semibold">AMJ Watches — Paid Advertising</div>
+        </div>
+
+        <!-- Media Layer -->
+        <div class="work-card-media relative w-full h-full rounded-2xl md:rounded-[24px] overflow-hidden bg-stone-900">
+          <img
+            src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?auto=format&fit=crop&w=1800&q=85"
+            alt="AMJ Watches Luxury Timepiece"
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
+        </div>
+
+        <!-- Bottom-Left Vertical Rotated Notch Tab -->
+        <div class="work-card-notch absolute bottom-0 left-0 z-10 bg-bone rounded-tr-2xl px-4 py-6 transition-opacity duration-300">
+          <div class="vertical-label flex flex-col items-start gap-0.5 leading-tight">
+            <span class="text-sm font-bold text-charcoal tracking-tight">AMJ Watches</span>
+            <span class="text-xs font-light text-charcoal/65">Paid Advertising</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARD 2: Gateshead College (Full Width — exact featured card in video!) -->
+      <article class="work-card reveal-card relative rounded-2xl md:rounded-[24px] overflow-hidden bg-bone h-[440px] md:h-[640px] cursor-pointer group" data-project="Gateshead College">
+        <!-- Split Reveal Drawer -->
+        <div class="work-card-drawer absolute inset-y-0 left-0 w-full lg:w-[58%] bg-bone p-8 md:p-14 flex flex-col justify-between z-20 opacity-0 pointer-events-none -translate-x-6">
+          <div class="flex items-center justify-between">
+            <svg class="h-6 w-auto text-charcoal" viewBox="0 0 28 24" fill="currentColor">
+              <rect x="0" y="2" width="4.5" height="20" />
+              <polygon points="8,2 13,2 21,16 21,22 16.5,22 8,8" />
+              <rect x="21" y="2" width="4.5" height="10" />
+            </svg>
+            <button class="close-drawer-btn w-9 h-9 rounded-full hover:bg-black/10 flex items-center justify-center text-charcoal font-bold text-lg transition" aria-label="Close case study">✕</button>
+          </div>
+          <div class="max-w-md my-auto">
+            <h3 class="text-3xl md:text-[38px] font-bold tracking-tight text-charcoal mb-4">Wanting to see more?</h3>
+            <p class="text-base md:text-lg font-light text-charcoal/80 leading-relaxed mb-8">
+              Our web team helped boost student application conversion rate by 74% by delivering a seriously superior user experience. Want results like that? Let's chat.
+            </p>
+            <a href="#contact" class="drawer-cta inline-flex items-center justify-center bg-ink text-white text-[11px] font-bold tracking-[0.14em] uppercase px-8 py-3.5 rounded-full hover:bg-charcoal transition">Get In Touch</a>
+          </div>
+          <div class="text-xs uppercase tracking-widest text-charcoal/40 font-semibold">Gateshead College — Website Development + UX</div>
+        </div>
+
+        <!-- Media Layer: Rich Multi-Device Showcase Collage matching video -->
+        <div class="work-card-media relative w-full h-full rounded-2xl md:rounded-[24px] overflow-hidden bg-[#ECECEF] flex items-center justify-center p-6 md:p-12">
+          <!-- Abstract pink & diagonal graphic backdrop -->
+          <div class="absolute right-12 top-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full bg-pink-400/75 blur-[1px]"></div>
+          <div class="absolute left-16 top-10 w-44 h-44 bg-acid -skew-x-12 opacity-90"></div>
+
+          <!-- Device Collage -->
+          <div class="relative z-10 grid grid-cols-12 gap-4 md:gap-6 items-center w-full max-w-5xl transition-transform duration-700 group-hover:scale-[1.02]">
+            <!-- Main Laptop Mockup -->
+            <div class="col-span-12 md:col-span-7 bg-[#141414] rounded-2xl p-2.5 shadow-2xl border border-white/10">
+              <div class="bg-[#111] rounded-xl overflow-hidden aspect-[16/10] p-5 md:p-7 flex flex-col justify-between relative">
+                <div class="flex items-center justify-between text-[10px] text-white/70 font-semibold">
+                  <span class="bg-white text-black px-2 py-0.5 rounded font-black">GATESHEAD COLLEGE</span>
+                  <div class="hidden sm:flex gap-3 uppercase">
+                    <span>Courses</span><span>Apprenticeships</span><span>Apply</span>
+                  </div>
+                </div>
+                <div class="grid grid-cols-12 items-center gap-4 my-auto">
+                  <div class="col-span-7">
+                    <div class="text-acid font-black text-xl md:text-3xl leading-[0.95] uppercase tracking-tight">READY TO TAKE<br>YOUR PLACE?</div>
+                    <div class="mt-3 flex items-center bg-white rounded-md px-3 py-1.5 text-[10px] text-black/50 justify-between">
+                      <span>Search courses...</span>
+                      <span class="font-bold text-black">→</span>
+                    </div>
+                  </div>
+                  <div class="col-span-5">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=500&q=80" alt="Students" class="rounded-xl aspect-square object-cover border-2 border-pink-400" />
+                  </div>
+                </div>
+                <div class="grid grid-cols-4 gap-2 pt-2">
+                  <div class="h-8 rounded bg-white/10"></div>
+                  <div class="h-8 rounded bg-white/10"></div>
+                  <div class="h-8 rounded bg-white/10"></div>
+                  <div class="h-8 rounded bg-pink-500/80"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mobile + Secondary UI Card -->
+            <div class="hidden md:flex col-span-5 items-center gap-4">
+              <div class="w-40 bg-[#141414] rounded-[28px] p-2 shadow-2xl">
+                <div class="bg-pink-200 rounded-[22px] p-3.5 h-[270px] flex flex-col justify-between">
+                  <div>
+                    <div class="text-[8px] font-bold uppercase tracking-wider text-charcoal/70">Department</div>
+                    <div class="text-sm font-black uppercase leading-tight text-charcoal mt-1">CATERING &amp; HOSPITALITY</div>
+                  </div>
+                  <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=400&q=80" alt="Catering" class="rounded-xl h-32 w-full object-cover" />
+                </div>
+              </div>
+              <div class="flex-1 space-y-3">
+                <div class="bg-[#141414] text-white rounded-xl p-4 shadow-xl">
+                  <div class="text-[9px] font-bold uppercase text-acid mb-1">Careers</div>
+                  <div class="text-sm font-extrabold uppercase leading-tight">APPRENTICESHIP VACANCIES.</div>
+                  <div class="mt-2 h-1.5 w-16 bg-pink-400 rounded-full"></div>
+                </div>
+                <div class="bg-sky-200 text-charcoal rounded-xl p-4 shadow-xl">
+                  <div class="text-sm font-black uppercase leading-tight">16-18 COURSES.</div>
+                  <p class="text-[10px] mt-1 opacity-75">Explore full-time programmes built for real careers.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom-Left Vertical Rotated Notch Tab -->
+        <div class="work-card-notch absolute bottom-0 left-0 z-10 bg-bone rounded-tr-2xl px-4 py-6 transition-opacity duration-300">
+          <div class="vertical-label flex flex-col items-start gap-0.5 leading-tight">
+            <span class="text-sm font-bold text-charcoal tracking-tight">Gateshead College</span>
+            <span class="text-xs font-light text-charcoal/65">Website Development + UX</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- ROW 3: 2-Column Split (Anglepoise + Carol Joy London) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+
+        <!-- CARD 3: Anglepoise -->
+        <article class="work-card reveal-card relative rounded-2xl md:rounded-[24px] overflow-hidden bg-bone h-[440px] md:h-[560px] cursor-pointer group" data-project="Anglepoise">
+          <!-- Split Reveal Drawer -->
+          <div class="work-card-drawer absolute inset-y-0 left-0 w-full lg:w-[64%] bg-bone p-7 md:p-10 flex flex-col justify-between z-20 opacity-0 pointer-events-none -translate-x-6">
+            <div class="flex items-center justify-between">
+              <svg class="h-5 w-auto text-charcoal" viewBox="0 0 28 24" fill="currentColor">
+                <rect x="0" y="2" width="4.5" height="20" />
+                <polygon points="8,2 13,2 21,16 21,22 16.5,22 8,8" />
+                <rect x="21" y="2" width="4.5" height="10" />
+              </svg>
+              <button class="close-drawer-btn w-8 h-8 rounded-full hover:bg-black/10 flex items-center justify-center text-charcoal font-bold transition" aria-label="Close case study">✕</button>
+            </div>
+            <div class="my-auto">
+              <h3 class="text-2xl md:text-3xl font-bold tracking-tight text-charcoal mb-3">Wanting to see more?</h3>
+              <p class="text-sm md:text-base font-light text-charcoal/80 leading-relaxed mb-6">
+                We re-architected Anglepoise's international technical SEO foundation, driving a 61% uplift in non-brand organic revenue across UK, EU, and US storefronts.
+              </p>
+              <a href="#contact" class="drawer-cta inline-flex items-center justify-center bg-ink text-white text-[10px] font-bold tracking-[0.14em] uppercase px-7 py-3 rounded-full hover:bg-charcoal transition">Get In Touch</a>
+            </div>
+            <div class="text-[11px] uppercase tracking-widest text-charcoal/40 font-semibold">Anglepoise — Technical SEO</div>
+          </div>
+
+          <div class="work-card-media relative w-full h-full rounded-2xl md:rounded-[24px] overflow-hidden bg-stone-200">
+            <img
+              src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?auto=format&fit=crop&w=1200&q=85"
+              alt="Anglepoise Iconic Lamp Interior"
+              class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            />
+          </div>
+
+          <div class="work-card-notch absolute bottom-0 left-0 z-10 bg-bone rounded-tr-2xl px-4 py-6 transition-opacity duration-300">
+            <div class="vertical-label flex flex-col items-start gap-0.5 leading-tight">
+              <span class="text-sm font-bold text-charcoal tracking-tight">Anglepoise</span>
+              <span class="text-xs font-light text-charcoal/65">Technical SEO</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 4: Carol Joy London -->
+        <article class="work-card reveal-card relative rounded-2xl md:rounded-[24px] overflow-hidden bg-bone h-[440px] md:h-[560px] cursor-pointer group" data-project="Carol Joy London">
+          <!-- Split Reveal Drawer -->
+          <div class="work-card-drawer absolute inset-y-0 left-0 w-full lg:w-[64%] bg-bone p-7 md:p-10 flex flex-col justify-between z-20 opacity-0 pointer-events-none -translate-x-6">
+            <div class="flex items-center justify-between">
+              <svg class="h-5 w-auto text-charcoal" viewBox="0 0 28 24" fill="currentColor">
+                <rect x="0" y="2" width="4.5" height="20" />
+                <polygon points="8,2 13,2 21,16 21,22 16.5,22 8,8" />
+                <rect x="21" y="2" width="4.5" height="10" />
+              </svg>
+              <button class="close-drawer-btn w-8 h-8 rounded-full hover:bg-black/10 flex items-center justify-center text-charcoal font-bold transition" aria-label="Close case study">✕</button>
+            </div>
+            <div class="my-auto">
+              <h3 class="text-2xl md:text-3xl font-bold tracking-tight text-charcoal mb-3">Wanting to see more?</h3>
+              <p class="text-sm md:text-base font-light text-charcoal/80 leading-relaxed mb-6">
+                A bespoke luxury Shopify Plus storefront for Carol Joy London that lifted mobile checkout conversion by 48% and increased average order value by 29%.
+              </p>
+              <a href="#contact" class="drawer-cta inline-flex items-center justify-center bg-ink text-white text-[10px] font-bold tracking-[0.14em] uppercase px-7 py-3 rounded-full hover:bg-charcoal transition">Get In Touch</a>
+            </div>
+            <div class="text-[11px] uppercase tracking-widest text-charcoal/40 font-semibold">Carol Joy London — Shopify Development</div>
+          </div>
+
+          <!-- Luxury Skincare Shopify UI Collage -->
+          <div class="work-card-media relative w-full h-full rounded-2xl md:rounded-[24px] overflow-hidden bg-[#2A2927] flex items-center justify-center p-6">
+            <img
+              src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1000&q=80"
+              alt="Luxury Skincare Background"
+              class="absolute inset-0 w-full h-full object-cover opacity-35"
+            />
+            <div class="relative z-10 w-[290px] sm:w-[320px] bg-white rounded-2xl shadow-2xl p-6 text-charcoal transition-transform duration-700 group-hover:scale-[1.03]">
+              <div class="text-lg font-serif tracking-tight mb-2">Discover Bestsellers</div>
+              <p class="text-[11px] text-charcoal/65 leading-relaxed mb-4">
+                Powered by cutting-edge Collagen, Golden Millet Oil, and bioavailable Hyaluronic Acid, embrace spa-inspired skincare.
+              </p>
+              <div class="flex justify-end mb-3">
+                <span class="text-[10px] border border-charcoal/20 rounded-full px-3 py-1">Swipe next →</span>
+              </div>
+              <div class="bg-[#F8F7F4] rounded-xl p-5 flex flex-col items-center text-center mb-4">
+                <span class="self-start text-[8px] font-bold uppercase tracking-widest bg-charcoal text-white px-2 py-0.5 rounded">No.1 Seller</span>
+                <div class="w-12 h-28 bg-gradient-to-b from-charcoal via-stone-800 to-charcoal rounded-lg my-3 shadow-md flex items-center justify-center">
+                  <span class="text-[7px] text-amber-200 tracking-widest uppercase -rotate-90 whitespace-nowrap">CAROL JOY</span>
+                </div>
+                <div class="text-xs font-semibold">Pure Collagen Spray</div>
+                <div class="text-[10px] text-charcoal/50 mt-0.5">★★★★★ 9 Reviews</div>
+                <div class="text-xs font-bold mt-1">£180.00</div>
+              </div>
+              <div class="w-full py-2.5 border border-charcoal text-center text-[10px] font-bold uppercase tracking-[0.16em]">Add To Basket</div>
+            </div>
+          </div>
+
+          <div class="work-card-notch absolute bottom-0 left-0 z-10 bg-bone rounded-tr-2xl px-4 py-6 transition-opacity duration-300">
+            <div class="vertical-label flex flex-col items-start gap-0.5 leading-tight">
+              <span class="text-sm font-bold text-charcoal tracking-tight">Carol Joy London</span>
+              <span class="text-xs font-light text-charcoal/65">Shopify Development</span>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- CARD 5: MINI (Full Width — 3 Mobile App Screens Collage) -->
+      <article class="work-card reveal-card relative rounded-2xl md:rounded-[24px] overflow-hidden bg-bone h-[460px] md:h-[620px] cursor-pointer group" data-project="MINI">
+        <!-- Split Reveal Drawer -->
+        <div class="work-card-drawer absolute inset-y-0 left-0 w-full lg:w-[58%] bg-bone p-8 md:p-14 flex flex-col justify-between z-20 opacity-0 pointer-events-none -translate-x-6">
+          <div class="flex items-center justify-between">
+            <svg class="h-6 w-auto text-charcoal" viewBox="0 0 28 24" fill="currentColor">
+              <rect x="0" y="2" width="4.5" height="20" />
+              <polygon points="8,2 13,2 21,16 21,22 16.5,22 8,8" />
+              <rect x="21" y="2" width="4.5" height="10" />
+            </svg>
+            <button class="close-drawer-btn w-9 h-9 rounded-full hover:bg-black/10 flex items-center justify-center text-charcoal font-bold text-lg transition" aria-label="Close case study">✕</button>
+          </div>
+          <div class="max-w-md my-auto">
+            <h3 class="text-3xl md:text-[38px] font-bold tracking-tight text-charcoal mb-4">Wanting to see more?</h3>
+            <p class="text-base md:text-lg font-light text-charcoal/80 leading-relaxed mb-8">
+              We designed and engineered a connected owner companion app for MINI featuring live garage status, MOT reminders, and exclusive member rewards—achieving a 4.9★ app store rating.
+            </p>
+            <a href="#contact" class="drawer-cta inline-flex items-center justify-center bg-ink text-white text-[11px] font-bold tracking-[0.14em] uppercase px-8 py-3.5 rounded-full hover:bg-charcoal transition">Get In Touch</a>
+          </div>
+          <div class="text-xs uppercase tracking-widest text-charcoal/40 font-semibold">MINI — App Design &amp; Development</div>
+        </div>
+
+        <!-- 3-Screen Mobile Showcase -->
+        <div class="work-card-media relative w-full h-full rounded-2xl md:rounded-[24px] overflow-hidden bg-gradient-to-br from-[#2B3135] via-[#1C2022] to-[#111314] flex items-center justify-center px-6 md:px-14">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end w-full max-w-5xl transition-transform duration-700 group-hover:scale-[1.02]">
+
+            <!-- Screen 1: Welcome Back -->
+            <div class="hidden md:block bg-white rounded-[30px] p-4 shadow-2xl h-[440px] translate-y-6">
+              <div class="flex justify-between items-center text-[10px] font-bold text-charcoal/60 mb-4">
+                <span>&lt; BACK</span><span class="px-2 py-0.5 border border-charcoal rounded-full text-charcoal">MINI</span><span>MENU ☰</span>
+              </div>
+              <div class="text-lg font-serif font-bold text-charcoal leading-tight mb-3">WELCOME<br>BACK.</div>
+              <div class="rounded-xl overflow-hidden bg-stone-100 mb-3 h-28 relative">
+                <img src="https://images.unsplash.com/photo-1617654112368-307921291f42?auto=format&fit=crop&w=600&q=80" alt="MINI Cooper" class="w-full h-full object-cover" />
+              </div>
+              <div class="grid grid-cols-3 gap-2 mt-4">
+                <div class="bg-charcoal text-white rounded-lg p-2.5 text-center text-[8px] font-bold">FINANCE</div>
+                <div class="bg-charcoal text-white rounded-lg p-2.5 text-center text-[8px] font-bold">ACCIDENT</div>
+                <div class="bg-charcoal text-white rounded-lg p-2.5 text-center text-[8px] font-bold">COSMETIC</div>
+              </div>
+            </div>
+
+            <!-- Screen 2: My Garage (Center Featured) -->
+            <div class="bg-white rounded-[32px] p-5 shadow-2xl h-[420px] md:h-[490px] flex flex-col justify-between">
+              <div>
+                <div class="flex justify-between items-center text-[10px] font-bold text-charcoal/60 mb-3">
+                  <span>&lt; BACK</span><span class="px-2 py-0.5 border border-charcoal rounded-full text-charcoal font-black">MINI</span><span>MENU ☰</span>
+                </div>
+                <div class="bg-stone-100 rounded-2xl p-3 mb-3">
+                  <div class="text-base font-serif font-bold text-charcoal leading-none mb-2">MY<br>GARAGE</div>
+                  <img src="https://images.unsplash.com/photo-1617654112368-307921291f42?auto=format&fit=crop&w=700&q=80" alt="MINI Cooper S" class="w-full h-28 object-cover rounded-xl" />
+                </div>
+                <div class="text-sm font-bold text-charcoal">MINI COOPER S <span class="text-[10px] font-normal text-charcoal/50">WJ74 MZN</span></div>
+                <div class="mt-2 space-y-2 text-[10px] text-charcoal/70">
+                  <div class="flex justify-between border-b border-black/10 pb-1"><span>Mileage</span><span class="font-bold text-charcoal">3,911</span></div>
+                  <div class="flex justify-between border-b border-black/10 pb-1"><span>MOT Due Date</span><span class="font-bold text-charcoal">31st Oct 2027</span></div>
+                </div>
+              </div>
+              <div class="bg-charcoal text-white rounded-xl py-2.5 px-4 flex justify-around text-[9px] font-bold uppercase tracking-wider">
+                <span>Home</span><span class="text-acid">Offers</span><span>Dealership</span>
+              </div>
+            </div>
+
+            <!-- Screen 3: Offers & Vouchers -->
+            <div class="hidden md:block bg-white rounded-[30px] p-4 shadow-2xl h-[440px] translate-y-6">
+              <div class="flex justify-between items-center text-[10px] font-bold text-charcoal/60 mb-4">
+                <span>&lt; BACK</span><span class="px-2 py-0.5 border border-charcoal rounded-full text-charcoal">MINI</span><span>MENU ☰</span>
+              </div>
+              <div class="text-sm font-serif font-bold text-charcoal mb-1">OFFERS &amp; VOUCHERS</div>
+              <p class="text-[10px] text-charcoal/60 mb-3">You have 2 vouchers to redeem:</p>
+              <div class="space-y-2">
+                <div class="bg-charcoal text-white rounded-lg p-3 flex justify-between items-center text-[10px] font-bold">
+                  <span>FREE WASH &amp; VACUUM</span><span class="text-acid">2 days left</span>
+                </div>
+                <div class="bg-charcoal text-white rounded-lg p-3 flex justify-between items-center text-[10px] font-bold">
+                  <span>HEALTH CHECK</span><span class="text-acid">2 days left</span>
+                </div>
+                <div class="bg-stone-100 text-charcoal rounded-lg p-3 text-[10px] font-bold">COSMETIC REPAIR</div>
+                <div class="bg-stone-100 text-charcoal rounded-lg p-3 text-[10px] font-bold">REFER A FRIEND</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="work-card-notch absolute bottom-0 left-0 z-10 bg-bone rounded-tr-2xl px-4 py-6 transition-opacity duration-300">
+          <div class="vertical-label flex flex-col items-start gap-0.5 leading-tight">
+            <span class="text-sm font-bold text-charcoal tracking-tight">MINI</span>
+            <span class="text-xs font-light text-charcoal/65">App Design &amp; Development</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 5: OUR CAPABILITIES (STICKY STACKING CARDS)
+       ========================================================= -->
+  <section id="capabilities" class="pt-16 md:pt-24 pb-10">
+    <!-- Giant Edge-to-Edge Title -->
+    <div class="px-3 md:px-6 overflow-hidden mb-4">
+      <h2 class="cap-title text-center font-extrabold uppercase tracking-[-0.045em] leading-[0.88] text-charcoal text-[clamp(2.85rem,9.9vw,10.2rem)] whitespace-nowrap select-none">
+        OUR CAPABILITIES
+      </h2>
+    </div>
+
+    <!-- Stacking Cards Container -->
+    <div class="relative">
+
+      <!-- CAPABILITY 1: Performance (White) -->
+      <div class="cap-card-1 bg-white border-t border-black/10 px-6 md:px-14 py-12 md:py-16 min-h-[380px] md:min-h-[430px] shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+        <div class="max-w-[1320px] mx-auto">
+          <h3 class="text-2xl md:text-[34px] font-light tracking-tight text-charcoal mb-8 md:mb-12">Performance</h3>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start">
+            <p class="md:col-span-4 text-sm md:text-[15px] font-light leading-[1.65] text-charcoal/80">
+              We've been growing businesses of all sizes for 18 years, whether you're out to change the whole world or just a small slice of it. How? A relentless drive to understand people, craft strategies that truly connect and deliver results that shift what matters to you.
+            </p>
+            <ul class="md:col-span-4 space-y-2.5 text-sm md:text-[15px] font-bold text-charcoal">
+              <li>Data &amp; Insights</li>
+              <li>Onsite SEO</li>
+              <li>Content Strategy</li>
+              <li>Digital PR</li>
+              <li>Paid Advertising &amp; Media</li>
+              <li>User Experience</li>
+            </ul>
+            <div class="md:col-span-4 flex justify-start md:justify-end">
+              <!-- Custom 3x3 Slanted Geometric Diamond Grid SVG (Exact match) -->
+              <svg class="cap-motif w-40 md:w-52 h-auto text-charcoal" viewBox="0 0 210 180" fill="currentColor">
+                <g transform="skewX(-28) translate(75,0)">
+                  <rect x="0" y="0" width="38" height="44" />
+                  <rect x="52" y="0" width="38" height="44" />
+                  <rect x="104" y="0" width="38" height="44" />
+                  <rect x="0" y="58" width="38" height="44" />
+                  <rect x="52" y="58" width="38" height="44" />
+                  <rect x="104" y="58" width="38" height="44" />
+                  <rect x="0" y="116" width="38" height="44" />
+                  <rect x="52" y="116" width="38" height="44" />
+                  <rect x="104" y="116" width="38" height="44" />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPABILITY 2: Technical (Electric Yellow #FAFF00) -->
+      <div class="cap-card-2 bg-acid border-t border-black/10 px-6 md:px-14 py-12 md:py-16 min-h-[380px] md:min-h-[430px] shadow-[0_-12px_35px_rgba(0,0,0,0.08)]">
+        <div class="max-w-[1320px] mx-auto">
+          <h3 class="text-2xl md:text-[34px] font-light tracking-tight text-charcoal mb-8 md:mb-12">Technical</h3>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start">
+            <p class="md:col-span-4 text-sm md:text-[15px] font-light leading-[1.65] text-charcoal/85">
+              As a Total Experience agency, we push boundaries to craft next-level web, app and custom solutions that transform how customers engage — and power up your people to work smarter and achieve more. A better experience for everyone. That's Inspired.
+            </p>
+            <ul class="md:col-span-4 space-y-2.5 text-sm md:text-[15px] font-bold text-charcoal">
+              <li>Website Development</li>
+              <li>Mobile Application Development</li>
+              <li>E-commerce Development</li>
+              <li>Software Development</li>
+              <li>Platform Integrations</li>
+            </ul>
+            <div class="md:col-span-4 flex justify-start md:justify-end">
+              <!-- Custom Stacked Horizontal Trapezoids SVG (Exact match) -->
+              <svg class="cap-motif w-44 md:w-56 h-auto text-charcoal" viewBox="0 0 220 180" fill="currentColor">
+                <polygon points="0,4 220,4 195,38 25,38" />
+                <polygon points="22,48 198,48 212,68 8,68" />
+                <polygon points="10,78 210,78 196,98 24,98" />
+                <polygon points="26,108 194,108 208,128 12,128" />
+                <polygon points="14,138 206,138 220,174 0,174" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPABILITY 3: Creative (Dark Charcoal #1C1C1C) -->
+      <div class="cap-card-3 bg-charcoal text-white border-t border-white/10 px-6 md:px-14 py-12 md:py-16 min-h-[380px] md:min-h-[430px] shadow-[0_-15px_40px_rgba(0,0,0,0.22)]">
+        <div class="max-w-[1320px] mx-auto">
+          <h3 class="text-2xl md:text-[34px] font-light tracking-tight text-white mb-8 md:mb-12">Creative</h3>
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start">
+            <p class="md:col-span-4 text-sm md:text-[15px] font-light leading-[1.65] text-white/80">
+              Our fearless creatives don't just think outside the box, they ditch the box entirely. We craft head-turning brand identities, groundbreaking campaigns, and scroll-stopping assets that spark change and captivate audiences within organisations and across marketplaces.
+            </p>
+            <ul class="md:col-span-4 space-y-2.5 text-sm md:text-[15px] font-bold text-white">
+              <li>Brand Strategy</li>
+              <li>Brand Development</li>
+              <li>Graphic &amp; Digital Design</li>
+              <li>Animation &amp; Motion Graphics</li>
+              <li>Video Production</li>
+              <li>Photography</li>
+            </ul>
+            <div class="md:col-span-4 flex justify-start md:justify-end">
+              <!-- Custom Vertical Acid Yellow Bars with Diagonal Cutouts SVG (Exact match) -->
+              <svg class="cap-motif w-40 md:w-52 h-auto" viewBox="0 0 210 185" fill="none">
+                <g fill="#FAFF00">
+                  <rect x="8" y="4" width="24" height="176" />
+                  <rect x="46" y="4" width="24" height="176" />
+                  <rect x="84" y="4" width="24" height="176" />
+                  <rect x="122" y="4" width="24" height="176" />
+                  <rect x="160" y="4" width="24" height="176" />
+                </g>
+                <!-- Diagonal Dark Cuts -->
+                <polygon points="0,120 195,22 195,52 0,150" fill="#1C1C1C" />
+                <polygon points="0,175 195,77 195,107 0,205" fill="#1C1C1C" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 6: WHAT SETS US APART (BADGES + COUNT-UP STATS)
+       ========================================================= -->
+  <section class="py-20 md:py-28 px-4 md:px-10 bg-bone">
+    <div class="max-w-[1260px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16 items-start">
+
+      <!-- Left Column: 12 Partner & Accreditation Cards -->
+      <div class="lg:col-span-6 grid grid-cols-2 gap-4 md:gap-5">
+        <!-- 1. Google Partner -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex flex-col items-center justify-center shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="text-2xl font-black tracking-tight"><span class="text-[#4285F4]">G</span><span class="text-[#EA4335]">o</span><span class="text-[#FBBC05]">o</span><span class="text-[#4285F4]">g</span><span class="text-[#34A853]">l</span><span class="text-[#EA4335]">e</span></span>
+          <span class="text-xs text-charcoal/70 font-medium mt-0.5">Partner</span>
+        </div>
+
+        <!-- 2. Meta Business Partner -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex flex-col items-center justify-center shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[#0668E1] text-2xl font-black">∞</span>
+            <span class="text-xl font-bold text-charcoal tracking-tight">Meta</span>
+          </div>
+          <span class="text-[11px] text-charcoal/65 font-medium mt-0.5">Business Partner</span>
+        </div>
+
+        <!-- 3. TikTok Marketing Partners -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex flex-col items-center justify-center shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="text-lg font-black tracking-tight text-charcoal">♪ TikTok</span>
+          <span class="text-[10px] text-charcoal/65 font-medium">Marketing Partners</span>
+        </div>
+
+        <!-- 4. Klaviyo Partner -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex flex-col items-center justify-center shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="text-xl font-bold tracking-tight text-[#8B3A5E]">klaviyo<span class="text-xs align-top">⚑</span></span>
+          <span class="text-[9px] uppercase tracking-[0.2em] text-charcoal/55 mt-0.5">Partner</span>
+        </div>
+
+        <!-- 5. Criteo -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex items-center justify-center gap-2 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="w-5 h-5 rounded-full bg-orange-500 text-white text-xs font-bold flex items-center justify-center">✓</span>
+          <span class="text-xl font-extrabold text-orange-500 tracking-tight">criteo<span class="text-charcoal/40">..</span></span>
+        </div>
+
+        <!-- 6. Pinterest Partners -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex items-center justify-center gap-2 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="w-6 h-6 rounded-full bg-[#E60023] text-white text-xs font-black flex items-center justify-center">P</span>
+          <span class="text-sm font-bold text-[#E60023]">Pinterest <span class="font-normal text-charcoal/70">Partners</span></span>
+        </div>
+
+        <!-- 7. HubSpot Certified Partner -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex flex-col items-center justify-center shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="text-xl font-extrabold text-charcoal tracking-tight">Hub<span class="text-[#FF7A59]">Spot</span></span>
+          <span class="text-[9px] font-bold uppercase tracking-[0.14em] text-charcoal/60 mt-1">Certified Partner</span>
+        </div>
+
+        <!-- 8. Microsoft Solutions Partner -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex items-center justify-center gap-2.5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <div class="grid grid-cols-2 gap-0.5 w-5 h-5">
+            <span class="bg-[#F25022]"></span><span class="bg-[#7FBA00]"></span>
+            <span class="bg-[#00A4EF]"></span><span class="bg-[#FFB900]"></span>
+          </div>
+          <div class="leading-tight">
+            <div class="text-sm font-bold text-charcoal">Microsoft</div>
+            <div class="text-[9px] text-charcoal/60">Solutions Partner</div>
+          </div>
+        </div>
+
+        <!-- 9. Registered Umbraco Partner -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex items-center justify-center gap-2.5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="w-7 h-7 rounded-full bg-[#3544B1] text-white font-black text-xs flex items-center justify-center">U</span>
+          <div class="leading-tight">
+            <div class="text-[10px] font-extrabold tracking-wider uppercase text-charcoal">Registered</div>
+            <div class="text-[9px] tracking-wider uppercase text-charcoal/60">Umbraco Partner</div>
+          </div>
+        </div>
+
+        <!-- 10. Shopify Partners -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex items-center justify-center gap-1.5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="w-5 h-5 rounded bg-[#95BF47] text-white font-black text-xs flex items-center justify-center">S</span>
+          <span class="text-sm font-extrabold text-charcoal">shopify <span class="font-light">partners</span></span>
+        </div>
+
+        <!-- 11. Cyber Essentials -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex items-center justify-center gap-2 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <span class="w-7 h-7 rounded-full border-2 border-indigo-700 text-indigo-700 font-black text-[10px] flex items-center justify-center">CE</span>
+          <div class="leading-tight">
+            <div class="text-[10px] font-extrabold uppercase text-indigo-900">Cyber</div>
+            <div class="text-[10px] font-semibold uppercase text-indigo-700">Essentials</div>
+          </div>
+        </div>
+
+        <!-- 12. ISO / UKAS Management -->
+        <div class="partner-card bg-white rounded-xl p-6 h-28 md:h-32 flex items-center justify-center gap-3 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-black/[0.03]">
+          <div class="w-10 h-10 rounded-full border border-charcoal/30 flex items-center justify-center text-[8px] font-black text-center leading-tight">ISO<br>9001</div>
+          <div class="border border-charcoal/30 px-2 py-1 text-center leading-tight">
+            <div class="text-[9px] font-extrabold">UKAS</div>
+            <div class="text-[7px] text-charcoal/60">CERTIFIED</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Narrative + 5 Animated Counters -->
+      <div class="lg:col-span-6 lg:pl-4">
+        <h2 class="text-2xl md:text-[32px] font-light tracking-tight text-charcoal mb-6">What sets us apart?</h2>
+
+        <div class="space-y-4 text-sm md:text-[15px] font-light leading-[1.68] text-charcoal/80 mb-12">
+          <p>
+            <strong class="font-semibold text-charcoal">Inspiring results</strong> aren't just a philosophy for us — they're literally in our name, our DNA and how we approach every single project.
+          </p>
+          <p>
+            Top brands pick Inspired to tackle their toughest challenges. Why? Because we bring together the brightest minds in the digital world. We're known for our relentless delivery, no-nonsense attitude and <strong class="font-semibold text-charcoal">unwavering commitment to action</strong>. With a team of 46 handpicked, competitive experts from data scientists to courageous creatives, digital developers and commercial strategists, our agency is simply built to get results that matter.
+          </p>
+          <p>No fluff. Just real <strong class="font-semibold text-charcoal">impact</strong>.</p>
+        </div>
+
+        <!-- Animated Stat Counter Rows -->
+        <div id="statsBlock" class="space-y-7 md:space-y-8">
+          <div class="grid grid-cols-12 items-baseline gap-4">
+            <div class="col-span-5 sm:col-span-4 text-5xl md:text-[58px] font-bold tracking-tight text-charcoal leading-none">
+              <span class="stat-num" data-target="18">0</span>
+            </div>
+            <div class="col-span-7 sm:col-span-8 text-lg md:text-[22px] font-light text-charcoal leading-snug">
+              Years growing brands
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 items-baseline gap-4">
+            <div class="col-span-5 sm:col-span-4 text-5xl md:text-[58px] font-bold tracking-tight text-charcoal leading-none">
+              <span class="stat-num" data-target="46">0</span>
+            </div>
+            <div class="col-span-7 sm:col-span-8">
+              <div class="text-lg md:text-[22px] font-light text-charcoal leading-snug">Talented staff</div>
+              <div class="text-xs font-light text-charcoal/60">(and counting)</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 items-baseline gap-4">
+            <div class="col-span-5 sm:col-span-4 text-5xl md:text-[58px] font-bold tracking-tight text-charcoal leading-none">
+              <span class="stat-num" data-target="97" data-suffix="%">0%</span>
+            </div>
+            <div class="col-span-7 sm:col-span-8">
+              <div class="text-lg md:text-[22px] font-light text-charcoal leading-snug">Client retention</div>
+              <div class="text-xs font-light text-charcoal/60">(we're pretty proud of that)</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 items-baseline gap-4">
+            <div class="col-span-5 sm:col-span-4 text-5xl md:text-[58px] font-bold tracking-tight text-charcoal leading-none">
+              <span class="stat-num" data-target="545">0</span>
+            </div>
+            <div class="col-span-7 sm:col-span-8 text-lg md:text-[22px] font-light text-charcoal leading-snug">
+              Web &amp; App projects launched
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 items-baseline gap-4">
+            <div class="col-span-5 sm:col-span-4 text-5xl md:text-[58px] font-bold tracking-tight text-charcoal leading-none">
+              <span class="stat-num" data-target="36">0</span>
+            </div>
+            <div class="col-span-7 sm:col-span-8 text-lg md:text-[22px] font-light text-charcoal leading-snug">
+              Active countries
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 7: INSPIRING CAREERS (DARK CHARCOAL SECTION)
+       ========================================================= -->
+  <section id="careers" class="bg-charcoal text-white py-20 md:py-28 px-4 md:px-10">
+    <div class="max-w-[1260px] mx-auto">
+
+      <!-- Top Row: Intro + White IN Monogram -->
+      <div class="flex flex-col md:flex-row justify-between items-start gap-8 mb-16 md:mb-20">
+        <div class="max-w-xl">
+          <h2 class="text-2xl md:text-[32px] font-light tracking-tight text-white mb-5">Inspiring Careers</h2>
+          <p class="text-sm md:text-[15px] font-light leading-[1.68] text-white/75">
+            Our people are our superpower. Inspired Agency is one of the UK's leading independent agencies, built to inspire brands today and ready for whatever complex challenges tomorrow throws our way. We attract and invest in the best and brightest, making sure clients don't just love our work, but actually love working with us. If you're a Creative, Analyst or Strategist ready to be inspired and inspire others, you've found your people.
+          </p>
+        </div>
+
+        <!-- White IN Monogram -->
+        <svg class="h-10 md:h-12 w-auto text-white shrink-0" viewBox="0 0 36 30" fill="currentColor">
+          <rect x="0" y="2" width="6" height="26" />
+          <polygon points="11,2 17,2 28,20 28,28 22,28 11,10" />
+          <rect x="28" y="2" width="6" height="14" />
+        </svg>
+      </div>
+
+      <!-- 3-Column Open Roles Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 border-t border-white/10">
+        <button class="career-role text-left group p-4 -m-4 rounded-xl hover:bg-white/[0.04] transition" data-role="Content Marketing Executive">
+          <div class="text-base font-bold text-white group-hover:text-acid transition flex items-center justify-between">
+            <span>Content Marketing Executive</span>
+            <span class="opacity-0 group-hover:opacity-100 transition text-sm">→</span>
+          </div>
+          <div class="text-xs font-light text-white/55 mt-1">Newcastle (Hybrid)</div>
+        </button>
+
+        <button class="career-role text-left group p-4 -m-4 rounded-xl hover:bg-white/[0.04] transition" data-role="Business Development Executive">
+          <div class="text-base font-bold text-white group-hover:text-acid transition flex items-center justify-between">
+            <span>Business Development Executive</span>
+            <span class="opacity-0 group-hover:opacity-100 transition text-sm">→</span>
+          </div>
+          <div class="text-xs font-light text-white/55 mt-1">Newcastle (Hybrid)</div>
+        </button>
+
+        <button class="career-role text-left group p-4 -m-4 rounded-xl hover:bg-white/[0.04] transition" data-role="Digital Account Manager">
+          <div class="text-base font-bold text-white group-hover:text-acid transition flex items-center justify-between">
+            <span>Digital Account Manager</span>
+            <span class="opacity-0 group-hover:opacity-100 transition text-sm">→</span>
+          </div>
+          <div class="text-xs font-light text-white/55 mt-1">Newcastle (Hybrid)</div>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       SECTION 8: CONTACT FORM & KINETIC ROLLING FOOTER (#FAFF00)
+       ========================================================= -->
+  <footer id="contact" class="bg-acid text-charcoal pt-16 md:pt-24 pb-10 px-4 md:px-10">
+    <div class="max-w-[1260px] mx-auto">
+
+      <!-- Floating White Contact Form Card -->
+      <div class="bg-white rounded-2xl md:rounded-[24px] p-8 md:p-14 shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+        <h2 class="text-xl md:text-2xl font-light uppercase tracking-wide text-charcoal mb-10">GET IN TOUCH:</h2>
+
+        <form id="contactForm" class="space-y-8">
+          <!-- 3-Column Underlined Inputs -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <div>
+              <input id="inputName" type="text" required placeholder="Name*" class="w-full border-b border-black/20 focus:border-charcoal py-2.5 text-sm font-light outline-none bg-transparent placeholder:text-charcoal/45 transition" />
+            </div>
+            <div>
+              <input id="inputPhone" type="tel" required placeholder="Phone*" class="w-full border-b border-black/20 focus:border-charcoal py-2.5 text-sm font-light outline-none bg-transparent placeholder:text-charcoal/45 transition" />
+            </div>
+            <div>
+              <input id="inputEmail" type="email" required placeholder="Email*" class="w-full border-b border-black/20 focus:border-charcoal py-2.5 text-sm font-light outline-none bg-transparent placeholder:text-charcoal/45 transition" />
+            </div>
+          </div>
+
+          <!-- Message Textarea -->
+          <div>
+            <textarea id="inputMessage" rows="4" required placeholder="Type your message here*" class="w-full border border-black/20 focus:border-charcoal rounded-lg p-4 text-sm font-light outline-none bg-transparent placeholder:text-charcoal/45 resize-y transition"></textarea>
+          </div>
+
+          <!-- GDPR Checkbox + Attach File + Submit Row -->
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <label class="flex items-start gap-3 max-w-md cursor-pointer">
+              <input id="gdprCheck" type="checkbox" required class="mt-0.5 w-4 h-4 accent-charcoal rounded border-black/30 shrink-0" />
+              <span class="text-[11px] font-light text-charcoal/70 leading-relaxed">
+                I understand how my data will be utilised and stored in keeping with all GDPR regulations. I have read the <a href="#contact" class="underline hover:text-charcoal">privacy policy</a> page that clearly defines what I can expect.
+              </span>
+            </label>
+
+            <div class="flex flex-wrap items-center gap-3">
+              <input id="fileInput" type="file" class="hidden" />
+              <button type="button" id="attachFileBtn" class="px-7 py-3 rounded-full border border-charcoal text-[11px] font-bold uppercase tracking-[0.14em] text-charcoal hover:bg-charcoal/5 transition">
+                ATTACH FILE
+              </button>
+              <button type="submit" class="px-10 py-3 rounded-full bg-ink text-white text-[11px] font-bold uppercase tracking-[0.14em] hover:bg-charcoal transition">
+                SUBMIT
+              </button>
+            </div>
+          </div>
+
+          <!-- Attached File / Form Status Feedback -->
+          <div id="formFeedback" class="hidden text-xs font-medium px-4 py-3 rounded-xl bg-bone text-charcoal"></div>
+        </form>
+      </div>
+
+      <!-- Vertical Black Connector Line -->
+      <div class="w-[3px] h-14 md:h-20 bg-charcoal mx-auto"></div>
+
+      <!-- Kinetic Rolling Footer Headline (Scroll-Scrubbed NEXT-LEVEL Wheel) -->
+      <div id="footerWheelSection" class="py-10 md:py-16">
+        <div class="flex flex-col md:flex-row md:items-start gap-2 md:gap-4 font-black uppercase tracking-[-0.04em] leading-[1.03] text-[clamp(2rem,5.4vw,4.85rem)]">
+          <!-- Left Fixed / Gliding Label -->
+          <div class="shrink-0">
+            <div id="nextLevelLabel" class="text-charcoal will-change-transform">NEXT-LEVEL</div>
+          </div>
+
+          <!-- Right 3-Word Vertical Stack -->
+          <div class="flex flex-col">
+            <div class="footer-wheel-word text-charcoal" data-wheel="0">EXPERIENCES.</div>
+            <div class="footer-wheel-word text-charcoal opacity-25" data-wheel="1">CONVERSATIONS.</div>
+            <div class="footer-wheel-word text-charcoal opacity-25" data-wheel="2">CONVERSIONS.</div>
+          </div>
+        </div>
+
+        <div class="mt-3 md:mt-5 font-light uppercase tracking-[-0.03em] leading-none text-[clamp(2rem,5.1vw,4.6rem)] text-charcoal">
+          THAT'S INSPIRED.
+        </div>
+      </div>
+
+      <!-- 4-Column Footer Contact & Offices Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 py-10 md:py-14 text-charcoal">
+        <!-- Newcastle -->
+        <div class="lg:col-span-3">
+          <h4 class="text-lg font-light mb-3">Newcastle</h4>
+          <p class="text-xs font-light leading-relaxed text-charcoal/85">
+            The Victoria Building,<br />
+            Heaton Park View,<br />
+            Newcastle upon Tyne,<br />
+            NE6 5BF
+          </p>
+        </div>
+
+        <!-- London -->
+        <div class="lg:col-span-3">
+          <h4 class="text-lg font-light mb-3">London</h4>
+          <p class="text-xs font-light leading-relaxed text-charcoal/85">
+            Lombard Business Park,<br />
+            8 Lombard Road,<br />
+            London,<br />
+            SW19 3TZ
+          </p>
+        </div>
+
+        <!-- Vertical Divider on Desktop -->
+        <div class="hidden lg:flex lg:col-span-1 justify-center">
+          <div class="w-px h-28 bg-charcoal/50"></div>
+        </div>
+
+        <!-- Follow Us -->
+        <div class="lg:col-span-2">
+          <h4 class="text-xs font-extrabold uppercase tracking-[0.12em] mb-4">FOLLOW US</h4>
+          <ul class="space-y-2.5 text-xs font-medium">
+            <li>
+              <a href="#contact" class="inline-flex items-center gap-2.5 hover:opacity-70 transition">
+                <span class="w-4 h-4 bg-charcoal text-acid text-[9px] font-black flex items-center justify-center rounded-[2px]">in</span>
+                <span>LinkedIn</span>
+              </a>
+            </li>
+            <li>
+              <a href="#contact" class="inline-flex items-center gap-2.5 hover:opacity-70 transition">
+                <span class="w-4 h-4 bg-charcoal text-acid text-[10px] font-black flex items-center justify-center rounded-[2px]">f</span>
+                <span>Facebook</span>
+              </a>
+            </li>
+            <li>
+              <a href="#contact" class="inline-flex items-center gap-2.5 hover:opacity-70 transition">
+                <span class="w-4 h-4 bg-charcoal text-acid text-[9px] font-black flex items-center justify-center rounded-[2px]">𝕏</span>
+                <span>X</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Connect With Us -->
+        <div class="lg:col-span-3">
+          <h4 class="text-xs font-extrabold uppercase tracking-[0.12em] mb-4">CONNECT WITH US</h4>
+          <ul class="space-y-2.5 text-xs font-light">
+            <li>Newcastle <a href="tel:01912658585" class="underline font-medium hover:opacity-70">0191 265 8585</a></li>
+            <li>London <a href="tel:02036332884" class="underline font-medium hover:opacity-70">020 3633 2884</a></li>
+            <li><a href="mailto:info@inspiredagency.co.uk" class="underline font-medium hover:opacity-70">info@inspiredagency.co.uk</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Legal Sub-Footer -->
+      <div class="pt-6 border-t border-charcoal/15 flex flex-col sm:flex-row justify-between items-center gap-3 text-[10px] font-light text-charcoal/80">
+        <div class="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+          <span>© 2025 Inspired Agency</span>
+          <span>|</span>
+          <span>Company Number 09345221</span>
+          <span>|</span>
+          <a href="#contact" class="hover:underline">Privacy Policy</a>
+          <span>|</span>
+          <a href="#contact" class="hover:underline">Cookie Policy</a>
+        </div>
+        <div>Website Built by Inspired Agency</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bottom-Left Accessibility / Preferences Floating Icon (Seen in Video) -->
+  <button id="cookieBtn" title="Privacy Preferences" class="fixed bottom-4 left-4 z-40 w-9 h-9 rounded-full bg-charcoal text-white shadow-lg flex items-center justify-center hover:scale-105 transition">
+    <i data-lucide="cookie" class="w-4 h-4"></i>
+  </button>
+
+  <!-- =========================================================
+       JAVASCRIPT: GSAP SCROLL ANIMATIONS & INTERACTIONS
+       ========================================================= -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      gsap.registerPlugin(ScrollTrigger);
+
+      /* ---------------------------------------------------------
+         1. MOBILE MENU TOGGLE
+         --------------------------------------------------------- */
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+      document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+      });
+
+      /* ---------------------------------------------------------
+         2. HERO ENTRANCE & LOOPING KINETIC SHOWREEL TIMELINE
+         --------------------------------------------------------- */
+      gsap.from('.hero-headline', {
+        y: 28,
+        opacity: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+      });
+
+      const scenes = document.querySelectorAll('.reel-scene');
+      const dots = document.querySelectorAll('.reel-dot');
+
+      function setActiveDot(idx) {
+        dots.forEach((d, i) => {
+          d.classList.toggle('bg-acid', i === idx);
+          d.classList.toggle('w-4', i === idx);
+          d.classList.toggle('bg-white/40', i !== idx);
+          d.classList.toggle('w-1.5', i !== idx);
+        });
+      }
+
+      const reelTL = gsap.timeline({ repeat: -1 });
+
+      // Scene 1: Editorial Portrait
+      reelTL
+        .call(() => setActiveDot(0))
+        .set(scenes[0], { autoAlpha: 1 })
+        .fromTo('.reel-zoom-img', { scale: 1.08 }, { scale: 1.0, duration: 2.3, ease: 'power1.out' })
+        .set(scenes[0], { autoAlpha: 0 })
+
+        // Scene 2: INSPIRING BRANDS SINCE '07
+        .call(() => setActiveDot(1))
+        .set(scenes[1], { autoAlpha: 1 })
+        .fromTo('.s2-word-1', { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.45, ease: 'power3.out' })
+        .fromTo('.s2-word-2', { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.4, ease: 'power3.out' }, '-=0.25')
+        .fromTo('.s2-since', { opacity: 0 }, { opacity: 1, duration: 0.3 }, '-=0.2')
+        .fromTo('.s2-bg', { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: 'power4.inOut' })
+        .to('.s2-since', { color: '#FFFFFF', duration: 0.2 }, '-=0.3')
+        .to({}, { duration: 0.65 })
+        .set(scenes[1], { autoAlpha: 0 })
+        .set('.s2-since', { color: '#1C1C1C' })
+
+        // Scene 3: Stadium PARTNERS -> IN
+        .call(() => setActiveDot(2))
+        .set(scenes[2], { autoAlpha: 1 })
+        .fromTo('.s3-img', { scale: 1.0 }, { scale: 1.12, duration: 1.7, ease: 'none' }, 0)
+        .fromTo('.s3-partners', { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.35 })
+        .to('.s3-partners', { opacity: 0, duration: 0.15, delay: 0.55 })
+        .fromTo('.s3-in', { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.28 })
+        .to({}, { duration: 0.45 })
+        .set(scenes[2], { autoAlpha: 0 })
+        .set('.s3-in', { opacity: 0 })
+
+        // Scene 4: PERFORMANCE / TECHNICAL / CREATIVE Yellow Sweep
+        .call(() => setActiveDot(3))
+        .set(scenes[3], { autoAlpha: 1 })
+        .set(['.s4-bar-1', '.s4-bar-2', '.s4-bar-3'], { scaleX: 0 })
+        .set('.s4-txt-1', { color: '#FFFFFF' })
+        .set(['.s4-txt-2', '.s4-txt-3'], { color: 'rgba(255,255,255,0.28)' })
+        .to('.s4-bar-1', { scaleX: 1, duration: 0.35, ease: 'power3.inOut' })
+        .to('.s4-txt-1', { color: '#1C1C1C', duration: 0.15 }, '-=0.2')
+        .to('.s4-bar-2', { scaleX: 1, duration: 0.35, ease: 'power3.inOut' }, '-=0.05')
+        .to('.s4-txt-2', { color: '#1C1C1C', duration: 0.15 }, '-=0.2')
+        .to('.s4-bar-3', { scaleX: 1, duration: 0.35, ease: 'power3.inOut' }, '-=0.05')
+        .to('.s4-txt-3', { color: '#1C1C1C', duration: 0.15 }, '-=0.2')
+        .to({}, { duration: 0.6 })
+        .set(scenes[3], { autoAlpha: 0 })
+
+        // Scene 5: Fanned Mobile Showcase
+        .call(() => setActiveDot(4))
+        .set(scenes[4], { autoAlpha: 1 })
+        .fromTo('.s5-phone', { y: 120, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.1, duration: 0.65, ease: 'power3.out' })
+        .to({}, { duration: 1.2 })
+        .set(scenes[4], { autoAlpha: 0 });
+
+      // Mute / Unmute Button Visual Toggle
+      const muteToggle = document.getElementById('muteToggle');
+      let isMuted = true;
+      muteToggle.addEventListener('click', () => {
+        isMuted = !isMuted;
+        muteToggle.innerHTML = `<i data-lucide="${isMuted ? 'volume-x' : 'volume-2'}" class="w-4 h-4"></i>`;
+        lucide.createIcons();
+      });
+
+      /* ---------------------------------------------------------
+         3. SCROLL-DRIVEN YELLOW BACKGROUND MORPH (#about)
+         --------------------------------------------------------- */
+      ScrollTrigger.create({
+        trigger: '#about',
+        start: 'top 62%',
+        end: 'bottom 42%',
+        onEnter: () => gsap.to('body', { backgroundColor: '#FAFF00', duration: 0.55, ease: 'power2.out' }),
+        onLeave: () => gsap.to('body', { backgroundColor: '#F5F5EF', duration: 0.55, ease: 'power2.out' }),
+        onEnterBack: () => gsap.to('body', { backgroundColor: '#FAFF00', duration: 0.55, ease: 'power2.out' }),
+        onLeaveBack: () => gsap.to('body', { backgroundColor: '#F5F5EF', duration: 0.55, ease: 'power2.out' }),
+      });
+
+      /* ---------------------------------------------------------
+         4. ROTATING MISSION COPY + STAGGERED 3-SET LOGO CAROUSEL
+         --------------------------------------------------------- */
+      const logoSets = document.querySelectorAll('.logo-set');
+      const logoDots = document.querySelectorAll('.logo-dot');
+      const mission1 = document.getElementById('missionCopy1');
+      const mission2 = document.getElementById('missionCopy2');
+      let currentSet = 0;
+
+      function switchLogoSet(nextIdx) {
+        if (nextIdx === currentSet) return;
+        const prevEl = logoSets[currentSet];
+        const nextEl = logoSets[nextIdx];
+
+        gsap.to(prevEl.querySelectorAll('.logo-item'), {
+          opacity: 0,
+          y: -10,
+          stagger: 0.05,
+          duration: 0.3,
+          onComplete: () => {
+            prevEl.classList.add('opacity-0', 'pointer-events-none');
+          },
+        });
+
+        nextEl.classList.remove('opacity-0', 'pointer-events-none');
+        gsap.fromTo(
+          nextEl.querySelectorAll('.logo-item'),
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, stagger: 0.08, duration: 0.45, delay: 0.2, ease: 'power2.out' }
+        );
+
+        // Toggle Mission Copy between set 0 and sets 1-2 (matches 00:08 - 00:13 in video)
+        if (nextIdx === 0) {
+          mission1.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+          mission2.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
+        } else {
+          mission1.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
+          mission2.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
+        }
+
+        logoDots.forEach((dot, i) => {
+          dot.classList.toggle('w-7', i === nextIdx);
+          dot.classList.toggle('bg-charcoal', i === nextIdx);
+          dot.classList.toggle('w-2', i !== nextIdx);
+          dot.classList.toggle('bg-charcoal/25', i !== nextIdx);
+        });
+
+        currentSet = nextIdx;
+      }
+
+      let logoInterval = setInterval(() => switchLogoSet((currentSet + 1) % logoSets.length), 3600);
+
+      logoDots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          clearInterval(logoInterval);
+          switchLogoSet(Number(dot.dataset.target));
+          logoInterval = setInterval(() => switchLogoSet((currentSet + 1) % logoSets.length), 3600);
+        });
+      });
+
+      /* ---------------------------------------------------------
+         5. PORTFOLIO CARDS: SCROLL REVEAL + SPLIT CASE-STUDY DRAWER
+         --------------------------------------------------------- */
+      gsap.utils.toArray('.reveal-card').forEach((card) => {
+        gsap.from(card, {
+          y: 45,
+          opacity: 0,
+          duration: 0.75,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 86%',
+            once: true,
+          },
+        });
+      });
+
+      document.querySelectorAll('.work-card').forEach((card) => {
+        const closeBtn = card.querySelector('.close-drawer-btn');
+        const ctaBtn = card.querySelector('.drawer-cta');
+
+        card.addEventListener('click', (e) => {
+          if (e.target.closest('.close-drawer-btn') || e.target.closest('.drawer-cta')) return;
+          // Close other open cards first
+          document.querySelectorAll('.work-card.is-open').forEach((other) => {
+            if (other !== card) other.classList.remove('is-open');
+          });
+          card.classList.toggle('is-open');
+        });
+
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          card.classList.remove('is-open');
+        });
+
+        ctaBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const project = card.dataset.project;
+          const msgField = document.getElementById('inputMessage');
+          if (msgField) {
+            msgField.value = `Hi Inspired team, I loved your ${project} case study and would love to discuss a project.`;
+          }
+        });
+      });
+
+      /* ---------------------------------------------------------
+         6. CAPABILITIES: DISPLAY TITLE & GEOMETRIC MOTIF MOTION
+         --------------------------------------------------------- */
+      gsap.from('.cap-title', {
+        y: 60,
+        opacity: 0,
+        duration: 0.85,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#capabilities',
+          start: 'top 82%',
+          once: true,
+        },
+      });
+
+      gsap.utils.toArray('.cap-motif').forEach((motif) => {
+        gsap.from(motif, {
+          y: 30,
+          opacity: 0,
+          duration: 0.75,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: motif,
+            start: 'top 88%',
+            once: true,
+          },
+        });
+      });
+
+      /* ---------------------------------------------------------
+         7. PARTNER BADGES STAGGER & ANIMATED COUNT-UP STATS
+         --------------------------------------------------------- */
+      gsap.from('.partner-card', {
+        y: 26,
+        opacity: 0,
+        stagger: 0.06,
+        duration: 0.55,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.partner-card',
+          start: 'top 84%',
+          once: true,
+        },
+      });
+
+      ScrollTrigger.create({
+        trigger: '#statsBlock',
+        start: 'top 82%',
+        once: true,
+        onEnter: () => {
+          document.querySelectorAll('.stat-num').forEach((el) => {
+            const target = parseInt(el.dataset.target, 10);
+            const suffix = el.dataset.suffix || '';
+            const counter = { val: 0 };
+
+            gsap.to(counter, {
+              val: target,
+              duration: 1.65,
+              ease: 'power2.out',
+              onUpdate: () => {
+                el.textContent = Math.round(counter.val) + suffix;
+              },
+            });
+          });
+        },
+      });
+
+      /* ---------------------------------------------------------
+         8. CAREERS ROLE CLICK -> PREFILL CONTACT FORM
+         --------------------------------------------------------- */
+      document.querySelectorAll('.career-role').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const role = btn.dataset.role;
+          const msgField = document.getElementById('inputMessage');
+          msgField.value = `Hi Inspired team, I'm interested in applying for the ${role} role (Newcastle Hybrid).`;
+          document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+          setTimeout(() => document.getElementById('inputName').focus(), 650);
+        });
+      });
+
+      /* ---------------------------------------------------------
+         9. CONTACT FORM: ATTACH FILE & VALIDATED SUBMISSION
+         --------------------------------------------------------- */
+      const attachBtn = document.getElementById('attachFileBtn');
+      const fileInput = document.getElementById('fileInput');
+      const formFeedback = document.getElementById('formFeedback');
+      const contactForm = document.getElementById('contactForm');
+
+      attachBtn.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+          attachBtn.textContent = `ATTACHED: ${fileInput.files[0].name.slice(0, 16)}`;
+        }
+      });
+
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        formFeedback.textContent = "Thanks for reaching out! Our team in Newcastle & London has received your message and will be in touch shortly.";
+        formFeedback.classList.remove('hidden');
+        contactForm.reset();
+        attachBtn.textContent = 'ATTACH FILE';
+      });
+
+      /* ---------------------------------------------------------
+         10. SCROLL-SCRUBBED KINETIC FOOTER ("NEXT-LEVEL" WHEEL)
+         --------------------------------------------------------- */
+      const wheelWords = document.querySelectorAll('.footer-wheel-word');
+      const nextLevelLabel = document.getElementById('nextLevelLabel');
+
+      ScrollTrigger.create({
+        trigger: '#footerWheelSection',
+        start: 'top 80%',
+        end: 'bottom 68%',
+        scrub: 0.35,
+        onUpdate: (self) => {
+          const p = self.progress; // 0 -> 1
+          const activeIndex = p < 0.33 ? 0 : p < 0.66 ? 1 : 2;
+
+          // Only vertically glide "NEXT-LEVEL" alongside stacked lines on md+ viewports
+          if (window.innerWidth >= 768) {
+            const lineH = wheelWords[0].getBoundingClientRect().height;
+            gsap.to(nextLevelLabel, {
+              y: activeIndex * lineH,
+              duration: 0.35,
+              ease: 'power2.out',
+              overwrite: true,
+            });
+          } else {
+            gsap.set(nextLevelLabel, { y: 0 });
+          }
+
+          wheelWords.forEach((word, idx) => {
+            word.style.opacity = idx === activeIndex ? '1' : '0.25';
+          });
+        },
+      });
+
+      /* ---------------------------------------------------------
+         11. ACTIVE NAVBAR PILL SPY ON SCROLL
+         --------------------------------------------------------- */
+      const navSections = ['about', 'our-work', 'capabilities', 'careers', 'contact'];
+      navSections.forEach((id) => {
+        const sectionEl = document.getElementById(id);
+        const navEl = document.querySelector(`nav a[href="#${id}"]`);
+        if (!sectionEl || !navEl) return;
+
+        ScrollTrigger.create({
+          trigger: sectionEl,
+          start: 'top 45%',
+          end: 'bottom 45%',
+          onToggle: ({ isActive }) => {
+            navEl.classList.toggle('active-pill', isActive);
+          },
+        });
+      });
+    });
+  </script>
+</body>
+</html>
